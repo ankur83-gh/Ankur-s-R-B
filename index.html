@@ -517,11 +517,12 @@
             </svg>
           </button>
           <div class="single-meta">
-            <h3>Midnight Static</h3>
+            <h3>Biker Boyz</h3>
             <p>Ankur &mdash; Single</p>
             <p>2026</p>
           </div>
         </div>
+        <audio id="singleAudio" src="audio/biker-boyz.mp3" preload="none"></audio>
       </div>
     </section>
 
@@ -570,18 +571,29 @@
       });
     });
 
-    // Play/pause toggle (front-end only, no real audio)
+    // Play/pause toggle for featured single
     const playBtn = document.getElementById('playBtn');
     const playIcon = document.getElementById('playIcon');
-    let isPlaying = false;
+    const singleAudio = document.getElementById('singleAudio');
     const pauseSvg = '<path d="M6 5h4v14H6zM14 5h4v14h-4z"></path>';
     const playSvg = '<path d="M8 5v14l11-7z"></path>';
 
-    playBtn.addEventListener('click', () => {
-      isPlaying = !isPlaying;
+    function setPlayingState(isPlaying) {
       playIcon.innerHTML = isPlaying ? pauseSvg : playSvg;
       playBtn.setAttribute('aria-label', isPlaying ? 'Pause featured single' : 'Play featured single');
+    }
+
+    playBtn.addEventListener('click', () => {
+      if (singleAudio.paused) {
+        singleAudio.play();
+      } else {
+        singleAudio.pause();
+      }
     });
+
+    singleAudio.addEventListener('play', () => setPlayingState(true));
+    singleAudio.addEventListener('pause', () => setPlayingState(false));
+    singleAudio.addEventListener('ended', () => setPlayingState(false));
 
     // Mailing list (front-end only)
     const mailingForm = document.getElementById('mailingForm');
